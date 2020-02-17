@@ -1,22 +1,22 @@
-import express from 'express';
-import { Response, Request } from "express";
-
+import {ApolloServer} from "apollo-server";
 
 export default class Server {
 
     readonly port: number;
+    private typeDefs: any;
+    private resolvers: any;
 
-    constructor(port: number) {
+    constructor(typeDefs: any, resolvers: any, port: number) {
+        this.typeDefs = typeDefs;
+        this.resolvers = resolvers;
         this.port = port;
     }
 
     start() {
-        const app = express();
-        app.get('/', (req: Request, res: Response) => {
-            res.send('Hello guys');
-        })
-        app.listen(this.port, () => {
-            console.log('Server start !');
-        })
+        const server = new ApolloServer({ typeDefs: this.typeDefs, resolvers: this.resolvers });
+
+        server.listen().then(({ url }) => {
+            console.log(`Server ready at ${url}`);
+        });
     }
 }
