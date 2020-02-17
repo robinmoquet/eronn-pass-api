@@ -1,0 +1,27 @@
+{
+  "name": "eronn-pass-api",
+  "version": "0.0.1",
+  "description": "Gestionnaire de mot de passe",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "jest --verbose --watch",
+    "dev": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon dist/index.js\"",
+    "start": "tsc && node dist/index.js"
+  },
+  "author": "Robin Moquet",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.1",
+    "concurrently": "^5.1.0",
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.2",
+    "express": "^4.17.1"
+  }
+}
