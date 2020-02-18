@@ -1,5 +1,6 @@
 import Server from './server';
 import { gql } from 'apollo-server';
+import resolvers from './config/resolvers/root.resolver.config';
 
 
 // TypeDefs
@@ -14,24 +15,6 @@ const typeDefs = gql`
   }
 `;
 
-// Data
-const books = [
-    {
-        title: 'Harry Potter and the Chamber of Secrets',
-        author: 'J.K. Rowling',
-    },
-    {
-        title: 'Jurassic Park',
-        author: 'Michael Crichton',
-    },
-];
-
-// Resolvers
-const resolvers = {
-    Query: {
-        books: () => books,
-    },
-};
 
 
 // lance le server node

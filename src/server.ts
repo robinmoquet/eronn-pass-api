@@ -1,4 +1,5 @@
-import {ApolloServer} from "apollo-server";
+import {ApolloServer, IResolvers} from "apollo-server";
+import { DocumentNode } from "graphql";
 
 export default class Server {
 
@@ -6,7 +7,7 @@ export default class Server {
     private typeDefs: any;
     private resolvers: any;
 
-    constructor(typeDefs: any, resolvers: any, port: number) {
+    constructor(typeDefs: DocumentNode, resolvers: IResolvers, port: number) {
         this.typeDefs = typeDefs;
         this.resolvers = resolvers;
         this.port = port;
