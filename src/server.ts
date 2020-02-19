@@ -1,20 +1,17 @@
 import {ApolloServer, IResolvers} from "apollo-server";
-import { DocumentNode } from "graphql";
 
 export default class Server {
 
-    readonly port: number;
-    private typeDefs: any;
-    private resolvers: any;
+    private readonly port: number;
+    private readonly schema: any;
 
-    constructor(typeDefs: DocumentNode, resolvers: IResolvers, port: number) {
-        this.typeDefs = typeDefs;
-        this.resolvers = resolvers;
+    constructor(schema: any, port: number) {
+        this.schema = schema;
         this.port = port;
     }
 
     start() {
-        const server = new ApolloServer({ typeDefs: this.typeDefs, resolvers: this.resolvers });
+        const server = new ApolloServer({ schema: this.schema, tracing: true });
 
         server.listen().then(({ url }) => {
             console.log(`Server ready at ${url}`);
