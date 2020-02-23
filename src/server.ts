@@ -1,4 +1,5 @@
 import {ApolloServer, IResolvers} from "apollo-server";
+import { createConnection, Connection, EntityManager } from "typeorm";
 
 export default class Server {
 
@@ -10,11 +11,15 @@ export default class Server {
         this.port = port;
     }
 
+    async createConnectionDatabase() {
+        const connection: Connection = await createConnection();
+    }
+
     start() {
         const server = new ApolloServer({ schema: this.schema, tracing: true });
 
         server.listen().then(({ url }) => {
-            console.log(`Server ready at ${url}`);
+            console.log(`Server ready to ${url}`);
         });
     }
 }
