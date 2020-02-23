@@ -2,27 +2,27 @@ import { gql } from "apollo-server";
 
 export const typeDef = gql`
     extend type Query {
-        user(username: String!): User
+        user(id: String!): User
+        userByEmail(email: String!): User
     }
     extend type Mutation {
-        createUser(user: UserInput!): User
+        createUser(userDto: UserInput!): User
     }
     """
     Définition des utilisateur
     """
     type User {
         id: String!
-        username: String
-        firstname: String
-        lastname: String
-        email: String
+        firstname: String!
+        lastname: String!
+        email: String!
+        fullname: String!
     }
 
     input UserInput {
-        username: String!
-        firstname: String
-        lastname: String
-        email: String
+        firstname: String!
+        lastname: String!
+        email: String!
     }
 
 `;
