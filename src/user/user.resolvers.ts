@@ -1,6 +1,4 @@
 import { IResolvers } from "apollo-server";
-import { User } from "./models/user.entity";
-import { getManager, getCustomRepository } from "typeorm";
 import { UserRepository } from "./models/user.repository";
 
 
