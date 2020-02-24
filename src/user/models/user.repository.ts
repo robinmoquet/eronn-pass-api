@@ -2,7 +2,6 @@ import { UserRepositoryInterface } from "./user.repository.interface";
 import { User } from "./user.entity";
 import { UserCreateDto } from "./user.create.dto";
 import { Repository, EntityRepository, getCustomRepository } from "typeorm";
-import { ObjectID } from "mongodb";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> implements UserRepositoryInterface {
@@ -20,6 +19,7 @@ export class UserRepository extends Repository<User> implements UserRepositoryIn
         user.email = userDto.email;
         user.firstname = userDto.firstname;
         user.lastname = userDto.lastname;
+        user.password = userDto.password;
 
         return await this.save(user);
     }

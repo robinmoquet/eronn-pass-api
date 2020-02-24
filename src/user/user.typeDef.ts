@@ -23,6 +23,7 @@ export const typeDef = gql`
         firstname: String!
         lastname: String!
         email: String!
+        password: String!
     }
 
 `;
