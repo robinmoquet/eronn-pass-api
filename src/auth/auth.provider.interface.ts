@@ -4,6 +4,6 @@ export interface AuthProviderInterface {
 
     // loadUserByEmail(email: string): UserInterface 
 
-    refreshUser(jwt: string): UserInterface
+    refreshUser(jwt: string): Promise<UserInterface | undefined>
 
 }

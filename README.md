@@ -17,6 +17,7 @@ $ npm install
 $ npm run start
 ```
 * Generer les clés de chiffrement pour les JWT (les clés priver `jwtRS256.key` et public `jwtRS256.key.pub` doivent être dans un dossier `cert/` à la racine du projet)
+_il ne faut pas entré de pass phrase_
 ```
 ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
 ```

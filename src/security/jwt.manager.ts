@@ -1,6 +1,7 @@
 import { verify, sign } from "jsonwebtoken";
 import { readFileSync } from "fs";
-import { JwtPayloadInteface } from "./jwt.payload.interface";
+import { UserAuthPayloadInterface } from "./jwt.paypload/user.auth.payload.interface";
+import { AuthenticationError } from "apollo-server";
 
 
 export class JwtManager {
@@ -12,8 +13,8 @@ export class JwtManager {
 
     private constructor()
     {
-        this.privateKeyPath = '../../cert/jwtRSA256.key';
-        this.publicKeyPath = '../../cert/jwtRSA256.key.pub';
+        this.privateKeyPath = 'cert/jwtRS256.key';
+        this.publicKeyPath = 'cert/jwtRS256.key.pub';
     }
 
     public static get Instance(): JwtManager
@@ -22,7 +23,7 @@ export class JwtManager {
         return this._instance;
     }
 
-    decodeAndVerify(token: string): JwtPayloadInteface
+    decodeAndVerify(token: string): UserAuthPayloadInterface
     {
         const certificate = readFileSync(this.publicKeyPath);
         
@@ -30,14 +31,14 @@ export class JwtManager {
         try {
             decoded = verify(token, certificate, { algorithms: ['RS256'] });
         } catch (err) {
-            throw err;
+            throw new AuthenticationError('jwt not valid');
         }
 
         console.log(decoded);
-        return decoded as JwtPayloadInteface;
+        return decoded as UserAuthPayloadInterface;
     }
 
-    sign(payload: JwtPayloadInteface): string
+    sign(payload: UserAuthPayloadInterface): string
     {
         const certificate = readFileSync(this.privateKeyPath);
 

@@ -1,5 +1,6 @@
 import {ApolloServer, IResolvers, AuthenticationError} from "apollo-server";
 import { createConnection, Connection, EntityManager } from "typeorm";
+import { UserProvider } from "./auth/user.provider";
 
 export default class Server {
 
@@ -20,14 +21,24 @@ export default class Server {
             schema: this.schema,
             tracing: true,
             context: ({ req }) => {
-                const jwt = req.headers.authorization;
+                const jwt: string | undefined = req.headers.authorization;
                 console.log(jwt)
+                
+                if (jwt === undefined) {
+                    throw new AuthenticationError('User not provide');
+                }
 
-                const user = null;
+                const userProvider = new UserProvider();
 
-                if (!user) throw new AuthenticationError('User not provide');
+                try {
+                    const user = userProvider.refreshUser(jwt);
 
-                return { user };
+                    if (!user) throw new AuthenticationError('User not provide');
+
+                    return { user };
+                } catch (e) {
+                    throw new AuthenticationError('Authentication error');;
+                }
             }
         });
 
