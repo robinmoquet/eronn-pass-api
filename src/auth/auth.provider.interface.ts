@@ -1,9 +1,9 @@
-import { UserInterface } from '../user/models/user.interface';
+import { UserInterface } from './models/user.interface';
 
 export interface AuthProviderInterface {
 
-    // loadUserByEmail(email: string): UserInterface 
+    loadUserByEmail(email: string): Promise<UserInterface | undefined>
 
-    refreshUser(jwt: string): Promise<UserInterface | undefined>
+    refreshUser(jwt: string): Promise<UserInterface>
 
 }

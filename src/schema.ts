@@ -3,12 +3,14 @@ import { merge } from "lodash";
 
 // Import des TypeDef
 // =======================================
+import { typeDef as auth } from './auth/auth.typeDef';
 import { typeDef as book } from './book/book.typeDef';
 import{ typeDef as user } from './user/user.typeDef';
 
 
 // Import des resolvers
 // =======================================
+import { resolvers as authResolvers } from './auth/auth.resolvers';
 import { resolvers as bookResolvers } from './book/book.resolvers';
 import { resolvers as userResolvers } from './user/user.resolvers';
 
@@ -25,8 +27,8 @@ const query = gql`
 const resolvers = {};
 
 const schema = makeExecutableSchema({
-    typeDefs: [query, book, user],
-    resolvers: merge(resolvers, bookResolvers, userResolvers)
+    typeDefs: [query, auth, book, user],
+    resolvers: merge(resolvers, authResolvers, bookResolvers, userResolvers)
 });
 
 export default schema;

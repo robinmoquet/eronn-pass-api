@@ -31,10 +31,9 @@ export class JwtManager {
         try {
             decoded = verify(token, certificate, { algorithms: ['RS256'] });
         } catch (err) {
-            throw new AuthenticationError('jwt not valid');
+            throw new AuthenticationError('JWT not valid');
         }
 
-        console.log(decoded);
         return decoded as UserAuthPayloadInterface;
     }
 
@@ -44,7 +43,6 @@ export class JwtManager {
 
         const token = sign(payload, certificate, { algorithm: 'RS256' });
 
-        console.log(token);
         return token;
     }
 

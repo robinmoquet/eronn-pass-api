@@ -21,6 +21,10 @@ _il ne faut pas entré de pass phrase_
 ```
 ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
 ```
+puis generer la clés public
+```
+openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
+```
 
 
 ### Commandes utiles

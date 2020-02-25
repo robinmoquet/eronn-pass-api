@@ -1,7 +1,9 @@
-import { Role } from "../../auth/role.enum";
+import { Role } from "./role.enum";
 
 
 export interface UserInterface {
+
+    getUsername(): string
 
     getPassword(): string
 

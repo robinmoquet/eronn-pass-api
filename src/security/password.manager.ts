@@ -1,4 +1,4 @@
-import { hash, genSaltSync } from "bcryptjs";
+import { hash, genSaltSync, compare } from "bcryptjs";
 
 export class PasswordManager {
     private static _instance: PasswordManager;
@@ -21,6 +21,11 @@ export class PasswordManager {
     async hashUserPassword(plainPassword: string): Promise<string>
     {
         return await hash(plainPassword, this.salt);
+    }
+
+    async comparePassword(plainPassword: string, hash: string): Promise<boolean>
+    {
+        return await compare(plainPassword, hash);
     }
 
 }

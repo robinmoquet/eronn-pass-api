@@ -17,28 +17,16 @@ export default class Server {
     }
 
     start() {
-        const server = new ApolloServer({ 
+        const server = new ApolloServer({
             schema: this.schema,
             tracing: true,
-            context: ({ req }) => {
+            context: async ({ req }) => {
                 const jwt: string | undefined = req.headers.authorization;
-                console.log(jwt)
-                
-                if (jwt === undefined) {
-                    throw new AuthenticationError('User not provide');
-                }
 
                 const userProvider = new UserProvider();
+                const user = await userProvider.refreshUser(jwt);
 
-                try {
-                    const user = userProvider.refreshUser(jwt);
-
-                    if (!user) throw new AuthenticationError('User not provide');
-
-                    return { user };
-                } catch (e) {
-                    throw new AuthenticationError('Authentication error');;
-                }
+                return { user };
             }
         });
 

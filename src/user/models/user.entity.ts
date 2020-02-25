@@ -1,6 +1,6 @@
 import { Entity, Column, ObjectIdColumn } from 'typeorm';
-import { UserInterface } from './user.interface';
-import { Role } from '../../auth/role.enum';
+import { UserInterface } from '../../auth/models/user.interface';
+import { Role } from '../../auth/models/role.enum';
 
 @Entity()
 export class User implements UserInterface {
@@ -23,6 +23,11 @@ export class User implements UserInterface {
     get fullname (): string
     {
         return `${this.firstname} ${this.lastname}`;
+    }
+
+    getUsername(): string
+    {
+        return this.email;
     }
 
     getPassword(): string
