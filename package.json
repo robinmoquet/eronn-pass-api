@@ -7,7 +7,8 @@
     "test": "jest --verbose",
     "test:watch": "jest --verbose --watch",
     "dev": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon dist/index.js\"",
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && node dist/index.js",
+    "prettier": "prettier --config ./.prettierrc --write ./src/**/*.ts"
   },
   "author": "Robin Moquet",
   "license": "ISC",
@@ -17,7 +18,9 @@
     "concurrently": "^5.1.0",
     "jest": "^25.1.0",
     "nodemon": "^2.0.2",
+    "prettier": "1.19.1",
     "ts-jest": "^25.2.0",
+    "tslint": "^6.0.0",
     "typescript": "^3.7.5"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-import { gql } from "apollo-server";
+import { gql } from 'apollo-server';
 
 export const typeDef = gql`
     extend type Query {
@@ -25,5 +25,4 @@ export const typeDef = gql`
         email: String!
         password: String!
     }
-
 `;
