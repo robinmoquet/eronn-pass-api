@@ -1,7 +1,8 @@
 import { UserRepositoryInterface } from "./user.repository.interface";
-import { User } from "./user.entity";
+import { User } from "./entity/user.entity";
 import { UserCreateDto } from "./user.create.dto";
-import { Repository, EntityRepository, getCustomRepository } from "typeorm";
+import { Repository, EntityRepository, getCustomRepository, FindOneOptions } from "typeorm";
+import { MonitoringConnection } from "./entity/monitoring.connection.entity";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> implements UserRepositoryInterface {
@@ -21,6 +22,12 @@ export class UserRepository extends Repository<User> implements UserRepositoryIn
         user.lastname = userDto.lastname;
         user.password = userDto.password;
 
+        const monitoringConnection: MonitoringConnection = new MonitoringConnection();
+        monitoringConnection.createAt = new Date();
+
+        user.monitoringConnection = monitoringConnection;
+
+
         return await this.save(user);
     }
 
@@ -29,9 +36,11 @@ export class UserRepository extends Repository<User> implements UserRepositoryIn
         return await this.save(user);
     }
 
-    async findByEmail(email: string): Promise<User | undefined>
+    async findByEmail(email: string, options?: FindOneOptions): Promise<User | undefined>
     {
-        return await this.findOne({email});
+        const user = await this.findOne({email}, options);
+        console.log(user?.monitoringConnection);
+        return user;
     }
 
     async findById(id: string): Promise<User | undefined>
