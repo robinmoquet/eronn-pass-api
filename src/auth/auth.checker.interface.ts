@@ -1,10 +1,10 @@
-import { UserInterface } from './models/user.interface';
 import { ConnectionDto } from './models/connection.dto';
+import { User } from '../user/models/entity/user.entity';
 
 export interface AuthCheckerInterface {
-    preCheck(user: UserInterface, connectionDto: ConnectionDto): void;
+    preCheck(user: User, connectionDto: ConnectionDto): void;
 
-    check(user: UserInterface, connectionDto: ConnectionDto): Promise<void>;
+    check(user: User, connectionDto: ConnectionDto): Promise<void>;
 
-    postCheck(user: UserInterface, connectionDto: ConnectionDto): void;
+    postCheck(user: User, connectionDto: ConnectionDto): void;
 }

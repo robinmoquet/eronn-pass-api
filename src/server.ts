@@ -16,7 +16,15 @@ export default class Server {
         const connection: Connection = await createConnection();
     }
 
-    start() {
+
+    /**
+     * Lance l'application sur le port spécifier dans la class
+     * 
+     * @returns void
+     */
+    start(): void {
+        this.runDefaultEnvConfig();
+
         const server = new ApolloServer({
             schema: this.schema,
             tracing: true,
@@ -30,8 +38,20 @@ export default class Server {
             }
         });
 
-        server.listen().then(({ url }) => {
-            console.log(`Server ready to ${url}`);
+        server.listen(this.port).then(({ url }) => {
+            console.log(`Server start to ${url}, good work and thinks async !`);
         });
+    }
+
+    
+    /**
+     * Permet de définir les paramètres d'environnement 
+     * par défault de l'application
+     * 
+     * @returns void
+     */
+    runDefaultEnvConfig(): void 
+    {
+        process.env.TZ = 'Europe/Amsterdam';
     }
 }

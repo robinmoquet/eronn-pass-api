@@ -1,7 +1,7 @@
 import { Entity, Column, ObjectIdColumn, OneToOne, JoinColumn, ObjectID, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 import { UserInterface } from '../../../auth/models/user.interface';
 import { Role } from '../../../auth/models/role.enum';
-import { MonitoringConnection } from './monitoring.connection.entity';
+import { UserStats } from './user.stats.entity';
 
 @Entity()
 export class User implements UserInterface {
@@ -21,11 +21,11 @@ export class User implements UserInterface {
     @Column()
     password: string;
 
-    @OneToOne(type => MonitoringConnection, monitoringConnection => monitoringConnection.user, {
-        cascade: true,
+    @OneToOne(type => UserStats, userStats => userStats.user, {
+        cascade: true
     })
     @JoinColumn()
-    monitoringConnection: MonitoringConnection;
+    userStats: Promise<UserStats>;
 
     get fullname (): string
     {

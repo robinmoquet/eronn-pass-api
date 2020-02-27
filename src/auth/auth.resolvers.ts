@@ -24,9 +24,9 @@ export const resolvers: IResolvers = {
             }
 
             try {
-                userChecker.preCheck(user, connectionDto);
+                await userChecker.preCheck(user, connectionDto);
                 await userChecker.check(user, connectionDto);
-                userChecker.postCheck(user, connectionDto);
+                await userChecker.postCheck(user, connectionDto);
             } catch (e) {
                 return definedResForError(res, e.message);
             }

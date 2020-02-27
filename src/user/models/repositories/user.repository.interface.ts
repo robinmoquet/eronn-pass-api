@@ -1,11 +1,8 @@
-import { User } from './entity/user.entity';
-import { UserCreateDto } from './user.create.dto';
-import { UserRepository } from './user.repository';
+import { User } from '../entity/user.entity';
+import { UserCreateDto } from '../user.create.dto';
 import { FindOneOptions } from 'typeorm';
 
 export interface UserRepositoryInterface {
-
-    Instance: UserRepository
 
     createUser(userCreateDto: UserCreateDto): Promise<User | undefined>
 

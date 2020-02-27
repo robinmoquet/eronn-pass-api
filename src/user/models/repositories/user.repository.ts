@@ -1,18 +1,12 @@
 import { UserRepositoryInterface } from "./user.repository.interface";
-import { User } from "./entity/user.entity";
-import { UserCreateDto } from "./user.create.dto";
+import { User } from "../entity/user.entity";
+import { UserCreateDto } from "../user.create.dto";
 import { Repository, EntityRepository, getCustomRepository, FindOneOptions } from "typeorm";
-import { MonitoringConnection } from "./entity/monitoring.connection.entity";
+import { UserStats } from "../entity/user.stats.entity";
+import { BaseRepository } from "../../../common/repository/base.repository";
 
 @EntityRepository(User)
-export class UserRepository extends Repository<User> implements UserRepositoryInterface {
-    
-    Instance: UserRepository;
-
-    public static get Instance()
-    {
-        return getCustomRepository(UserRepository);
-    }
+export class UserRepository extends BaseRepository<User> implements UserRepositoryInterface {
 
     async createUser(userDto: UserCreateDto): Promise<User | undefined>
     {
@@ -22,10 +16,10 @@ export class UserRepository extends Repository<User> implements UserRepositoryIn
         user.lastname = userDto.lastname;
         user.password = userDto.password;
 
-        const monitoringConnection: MonitoringConnection = new MonitoringConnection();
-        monitoringConnection.createAt = new Date();
+        const userStats: UserStats = new UserStats();
+        userStats.createAt = new Date();
 
-        user.monitoringConnection = monitoringConnection;
+        user.userStats = Promise.resolve(userStats);
 
 
         return await this.save(user);
@@ -38,9 +32,7 @@ export class UserRepository extends Repository<User> implements UserRepositoryIn
 
     async findByEmail(email: string, options?: FindOneOptions): Promise<User | undefined>
     {
-        const user = await this.findOne({email}, options);
-        console.log(user?.monitoringConnection);
-        return user;
+        return await this.findOne({email}, options);
     }
 
     async findById(id: string): Promise<User | undefined>
