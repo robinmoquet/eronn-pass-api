@@ -9,10 +9,7 @@ import { UserAuthPayloadInterface } from '../security/jwt.paypload/user.auth.pay
 
 export const resolvers: IResolvers = {
     Query: {
-        connection: async (
-            _,
-            { connectionDto }: { connectionDto: ConnectionDto }
-        ) => {
+        connection: async (_, { connectionDto }: { connectionDto: ConnectionDto }) => {
             const res = new ConnectionResult();
             const userProvider = new UserProvider();
             const userChecker = new UserChecker();
@@ -46,10 +43,7 @@ export const resolvers: IResolvers = {
     },
 };
 
-function definedResForError(
-    res: ConnectionResult,
-    message: string
-): ConnectionResult {
+function definedResForError(res: ConnectionResult, message: string): ConnectionResult {
     res.status = Status.ERRORR;
     res.message = message;
     return res;

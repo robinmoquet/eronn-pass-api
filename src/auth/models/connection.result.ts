@@ -1,7 +1,4 @@
-import {
-    ConnectionResultInterface,
-    Status,
-} from './connection.result.interface';
+import { ConnectionResultInterface, Status } from './connection.result.interface';
 
 export class ConnectionResult implements ConnectionResultInterface {
     _status: Status;

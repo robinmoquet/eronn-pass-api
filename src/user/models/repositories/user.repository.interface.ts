@@ -9,8 +9,5 @@ export interface UserRepositoryInterface {
 
     findById(id: string): Promise<User | undefined>;
 
-    findByEmail(
-        email: string,
-        options?: FindOneOptions
-    ): Promise<User | undefined>;
+    findByEmail(email: string, options?: FindOneOptions): Promise<User | undefined>;
 }

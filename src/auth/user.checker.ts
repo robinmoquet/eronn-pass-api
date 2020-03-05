@@ -28,12 +28,9 @@ export class UserChecker implements AuthCheckerInterface {
         const now = new Date();
         const dateToUnlock = new Date(userStats.lockedAt as Date);
 
-        if (userStats.connectionAttempt > 6)
-            dateToUnlock.setHours(dateToUnlock.getHours() + 1);
-        else if (userStats.connectionAttempt >= 5)
-            dateToUnlock.setMinutes(dateToUnlock.getMinutes() + 10);
-        else if (userStats.connectionAttempt >= 3)
-            dateToUnlock.setMinutes(dateToUnlock.getMinutes() + 1);
+        if (userStats.connectionAttempt > 6) dateToUnlock.setHours(dateToUnlock.getHours() + 1);
+        else if (userStats.connectionAttempt >= 5) dateToUnlock.setMinutes(dateToUnlock.getMinutes() + 10);
+        else if (userStats.connectionAttempt >= 3) dateToUnlock.setMinutes(dateToUnlock.getMinutes() + 1);
 
         if (now < dateToUnlock) accountIsLocked = true;
 
@@ -49,10 +46,7 @@ export class UserChecker implements AuthCheckerInterface {
      */
     async check(user: User, connectionDto: ConnectionDto): Promise<void> {
         const password = user.getPassword();
-        let samePassword = await PasswordManager.Instance.comparePassword(
-            connectionDto.password,
-            password
-        );
+        let samePassword = await PasswordManager.Instance.comparePassword(connectionDto.password, password);
 
         if (!samePassword) {
             const userStats = await user.userStats;
@@ -63,9 +57,7 @@ export class UserChecker implements AuthCheckerInterface {
                 userStats.lockedAt = new Date();
             }
 
-            UserStatsRepository.getInstance(UserStatsRepository).flush(
-                userStats
-            );
+            UserStatsRepository.getInstance(UserStatsRepository).flush(userStats);
 
             throw new Error('Invalid password');
         }

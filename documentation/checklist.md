@@ -23,14 +23,14 @@
 
 #### Implementation du GraphQL
 * express-graphql [ ]
-* apollo-server [ ]
+* apollo-server [x]
 
 #### Test unitaire, fonctionnel, end to end
 * mocha [ ]
 * jest [x]
 
 #### Gestion des resolvers
-* Systeme d'objet, que l'on peu merge via lodash [ ]
+* Systeme d'objet, que l'on peu merge via lodash [x]
 * Systeme de routing, (dans le style de symfony) [ ]
     - créer au sein du projet [ ]
     - créer sous forme de module npm [ ]

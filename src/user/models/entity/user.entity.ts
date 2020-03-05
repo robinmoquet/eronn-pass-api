@@ -1,13 +1,4 @@
-import {
-    Entity,
-    Column,
-    ObjectIdColumn,
-    OneToOne,
-    JoinColumn,
-    ObjectID,
-    PrimaryGeneratedColumn,
-    BaseEntity,
-} from 'typeorm';
+import { Entity, Column, OneToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { UserInterface } from '../../../auth/models/user.interface';
 import { Role } from '../../../auth/models/role.enum';
 import { UserStats } from './user.stats.entity';

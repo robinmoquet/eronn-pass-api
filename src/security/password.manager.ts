@@ -18,10 +18,7 @@ export class PasswordManager {
         return await hash(plainPassword, this.salt);
     }
 
-    async comparePassword(
-        plainPassword: string,
-        hash: string
-    ): Promise<boolean> {
+    async comparePassword(plainPassword: string, hash: string): Promise<boolean> {
         return await compare(plainPassword, hash);
     }
 }

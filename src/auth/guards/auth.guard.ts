@@ -31,9 +31,7 @@ export class AuthGuard {
      */
     static isGranted(role: Role, user: UserInterface): void {
         if (!this.roleHaveBiggerWeight(role, user.getRole())) {
-            throw new AuthGuardError(
-                `This user not have role ${role}, this user have role ${user.getRole()}`
-            );
+            throw new AuthGuardError(`This user not have role ${role}, this user have role ${user.getRole()}`);
         }
     }
 

@@ -5,9 +5,7 @@ import { SERVER_NAME } from '../config/config.email';
 import fetch from 'node-fetch';
 
 export class EmailGateway implements EmailGatewayInterface {
-    async sendConfirmationEmail(
-        options: ConfirmationEmailOptionsInterface
-    ): Promise<EmailResponse> {
+    async sendConfirmationEmail(options: ConfirmationEmailOptionsInterface): Promise<EmailResponse> {
         const response = new EmailResponse();
         const mailerRes = await fetch(`${SERVER_NAME}/confirmation-email`, {
             headers: {

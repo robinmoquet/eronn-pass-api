@@ -28,13 +28,7 @@ const resolvers = {};
 
 const schema = makeExecutableSchema({
     typeDefs: [query, auth, book, user, personalData],
-    resolvers: merge(
-        resolvers,
-        authResolvers,
-        bookResolvers,
-        userResolvers,
-        personalDataResolvers
-    ),
+    resolvers: merge(resolvers, authResolvers, bookResolvers, userResolvers, personalDataResolvers),
 });
 
 export default schema;

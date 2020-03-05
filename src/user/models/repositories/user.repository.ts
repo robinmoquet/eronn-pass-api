@@ -1,25 +1,22 @@
 import { UserRepositoryInterface } from './user.repository.interface';
 import { User } from '../entity/user.entity';
 import { UserCreateDto } from '../user.create.dto';
-import {
-    Repository,
-    EntityRepository,
-    getCustomRepository,
-    FindOneOptions,
-} from 'typeorm';
+import { EntityRepository, FindOneOptions } from 'typeorm';
 import { UserStats } from '../entity/user.stats.entity';
 import { BaseRepository } from '../../../common/repository/base.repository';
 import { PersonalData } from '../../../personalData/models/entity/personal.data.entity';
+import { DataManager } from '../../../utils/DataManager';
 
 @EntityRepository(User)
-export class UserRepository extends BaseRepository<User>
-    implements UserRepositoryInterface {
+export class UserRepository extends BaseRepository<User> implements UserRepositoryInterface {
+    /**
+     * Creer un nouvelle ustilisateur à partir du userDto
+     *
+     * @param  {UserCreateDto} userDto
+     * @returns Promise
+     */
     async createUser(userDto: UserCreateDto): Promise<User | undefined> {
-        const user = new User();
-        user.email = userDto.email;
-        user.firstname = userDto.firstname;
-        user.lastname = userDto.lastname;
-        user.password = userDto.password;
+        const user = await DataManager.handleDto<User>(userDto, new User());
 
         const userStats: UserStats = new UserStats();
         userStats.createAt = new Date();
@@ -35,10 +32,7 @@ export class UserRepository extends BaseRepository<User>
         return await this.save(user);
     }
 
-    async findByEmail(
-        email: string,
-        options?: FindOneOptions
-    ): Promise<User | undefined> {
+    async findByEmail(email: string, options?: FindOneOptions): Promise<User | undefined> {
         return await this.findOne({ email }, options);
     }
 

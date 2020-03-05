@@ -15,20 +15,14 @@ export const resolvers: IResolvers = {
         userByEmail: (_, { email }, { user }: { user: UserInterface }) => {
             AuthGuard.isGranted(Role.ROLE_USER, user);
 
-            return UserRepository.getInstance(UserRepository).findByEmail(
-                email
-            );
+            return UserRepository.getInstance(UserRepository).findByEmail(email);
         },
     },
     Mutation: {
         createUser: async (_, { userDto }: { userDto: UserCreateDto }) => {
-            userDto.password = await PasswordManager.Instance.hashUserPassword(
-                userDto.password
-            );
+            userDto.password = await PasswordManager.Instance.hashUserPassword(userDto.password);
 
-            const user = await UserRepository.getInstance(
-                UserRepository
-            ).createUser(userDto);
+            const user = await UserRepository.getInstance(UserRepository).createUser(userDto);
             if (user === undefined) throw new Error('Fail on save user');
 
             const res = await EmailManager.Gateway.sendConfirmationEmail({

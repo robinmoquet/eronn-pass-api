@@ -4,9 +4,7 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 import { Role } from '../auth/models/role.enum';
 import { User } from '../user/models/entity/user.entity';
 import { AddressDto } from './models/dto/address.dto';
-import { Address } from './models/entity/address.entity';
 import { PersonalDataRepository } from './models/repositories/personalData.repository';
-import { AuthGuardError } from '../auth/guards/auth.guard.error';
 
 export const resolvers: IResolvers = {
     Query: {
@@ -25,11 +23,7 @@ export const resolvers: IResolvers = {
         },
     },
     Mutation: {
-        addAddress: async (
-            _,
-            { addressDto }: { addressDto: AddressDto },
-            { user }: { user: UserInterface }
-        ) => {
+        addAddress: async (_, { addressDto }: { addressDto: AddressDto }, { user }: { user: UserInterface }) => {
             AuthGuard.isGranted(Role.ROLE_USER, user);
             if (user instanceof User) {
             } else {
@@ -37,19 +31,7 @@ export const resolvers: IResolvers = {
             }
 
             const personalData = await user.personalData;
-
-            // FIXEME: A refactor
-            const address = new Address();
-            address.city = addressDto.city;
-            address.zipCode = addressDto.zipCode;
-            address.country = addressDto.country;
-            address.address = addressDto.address;
-
-            const prevAddress = await personalData.address;
-            personalData.address = Promise.resolve([...prevAddress, address]);
-            PersonalDataRepository.getInstance(PersonalDataRepository).flush(
-                personalData
-            );
+            const address = PersonalDataRepository.getInstance(PersonalDataRepository).addAddress(addressDto, personalData);
 
             return address;
         },
