@@ -2,20 +2,9 @@
 
 ### Installation
 
-* Téléchargement du projet
-```
-$ git clone https://github.com/robinmoquet/eronn-pass-api.git
-```
+Pour l'installation du projet veuillez vous référer au instruction sur (eronn-pass-docker)[https://github.com/robinmoquet/eronn-pass-docker]
 
-* Intallation des dépendance
-```
-$ npm install
-```
 
-* Lancement du projet 
-```
-$ npm run start
-```
 * Generer les clés de chiffrement pour les JWT (les clés priver `jwtRS256.key` et public `jwtRS256.key.pub` doivent être dans un dossier `cert/` à la racine du projet)
 _il ne faut pas entré de pass phrase_
 ```
