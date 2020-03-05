@@ -1,2 +1,2 @@
 export const SENDING_EMAIL_ACTIVATE = true;
-export const SERVER_NAME = 'http://localhost:3535';
+export const SERVER_NAME = 'http://mailer:3535';
