@@ -2,7 +2,7 @@
 
 ### Installation
 
-Pour l'installation du projet veuillez vous référer au instruction sur (eronn-pass-docker)[https://github.com/robinmoquet/eronn-pass-docker]
+Pour l'installation du projet veuillez vous référer au instruction sur [eronn-pass-docker](https://github.com/robinmoquet/eronn-pass-docker)
 
 
 * Generer les clés de chiffrement pour les JWT (les clés priver `jwtRS256.key` et public `jwtRS256.key.pub` doivent être dans un dossier `cert/` à la racine du projet)
