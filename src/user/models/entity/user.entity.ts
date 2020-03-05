@@ -1,11 +1,21 @@
-import { Entity, Column, ObjectIdColumn, OneToOne, JoinColumn, ObjectID, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import {
+    Entity,
+    Column,
+    ObjectIdColumn,
+    OneToOne,
+    JoinColumn,
+    ObjectID,
+    PrimaryGeneratedColumn,
+    BaseEntity,
+} from 'typeorm';
 import { UserInterface } from '../../../auth/models/user.interface';
 import { Role } from '../../../auth/models/role.enum';
 import { UserStats } from './user.stats.entity';
+import { PersonalData } from '../../../personalData/models/entity/personal.data.entity';
+import { type } from 'os';
 
 @Entity()
 export class User implements UserInterface {
-
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -15,35 +25,47 @@ export class User implements UserInterface {
     @Column()
     lastname: string;
 
-    @Column()
+    @Column({
+        unique: true,
+    })
     email: string;
 
     @Column()
     password: string;
 
-    @OneToOne(type => UserStats, userStats => userStats.user, {
-        cascade: true
-    })
+    @OneToOne(
+        (type) => UserStats,
+        (userStats) => userStats.user,
+        {
+            cascade: true,
+        }
+    )
     @JoinColumn()
     userStats: Promise<UserStats>;
 
-    get fullname (): string
-    {
+    @OneToOne(
+        (type) => PersonalData,
+        (personalData) => personalData.user,
+        {
+            cascade: true,
+        }
+    )
+    @JoinColumn()
+    personalData: Promise<PersonalData>;
+
+    get fullname(): string {
         return `${this.firstname} ${this.lastname}`;
     }
 
-    getUsername(): string
-    {
+    getUsername(): string {
         return this.email;
     }
 
-    getPassword(): string
-    {
+    getPassword(): string {
         return this.password;
     }
 
-    getRoles(): Array<Role>
-    {
-        return [Role.ROLE_USER];
+    getRole(): Role {
+        return Role.ROLE_USER;
     }
 }

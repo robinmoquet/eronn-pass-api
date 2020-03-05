@@ -6,10 +6,10 @@ import { AnonUser } from './models/anon.user';
 import { User } from '../user/models/entity/user.entity';
 
 export class UserProvider implements AuthProviderInterface {
-    async loadUserByEmail(
-        username: string
-    ): Promise<User | undefined> {
-        return await UserRepository.getInstance(UserRepository).findByEmail(username);
+    async loadUserByEmail(username: string): Promise<User | undefined> {
+        return await UserRepository.getInstance(UserRepository).findByEmail(
+            username
+        );
     }
 
     async refreshUser(jwt: string | undefined): Promise<UserInterface> {
@@ -22,7 +22,9 @@ export class UserProvider implements AuthProviderInterface {
             return this.getAnonUser();
         }
 
-        const user = await UserRepository.getInstance(UserRepository).findByEmail(decoded.email);
+        const user = await UserRepository.getInstance(
+            UserRepository
+        ).findByEmail(decoded.email);
 
         if (!user) return this.getAnonUser();
 

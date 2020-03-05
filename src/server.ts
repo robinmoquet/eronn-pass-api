@@ -1,9 +1,8 @@
-import {ApolloServer, IResolvers, AuthenticationError} from "apollo-server";
-import { createConnection, Connection, EntityManager } from "typeorm";
-import { UserProvider } from "./auth/user.provider";
+import { ApolloServer, IResolvers, AuthenticationError } from 'apollo-server';
+import { createConnection, Connection, EntityManager } from 'typeorm';
+import { UserProvider } from './auth/user.provider';
 
 export default class Server {
-
     private readonly port: number;
     private readonly schema: any;
 
@@ -16,10 +15,9 @@ export default class Server {
         const connection: Connection = await createConnection();
     }
 
-
     /**
      * Lance l'application sur le port spécifier dans la class
-     * 
+     *
      * @returns void
      */
     start(): void {
@@ -35,7 +33,7 @@ export default class Server {
                 const user = await userProvider.refreshUser(jwt);
 
                 return { user };
-            }
+            },
         });
 
         server.listen(this.port).then(({ url }) => {
@@ -43,15 +41,13 @@ export default class Server {
         });
     }
 
-    
     /**
-     * Permet de définir les paramètres d'environnement 
+     * Permet de définir les paramètres d'environnement
      * par défault de l'application
-     * 
+     *
      * @returns void
      */
-    runDefaultEnvConfig(): void 
-    {
+    runDefaultEnvConfig(): void {
         process.env.TZ = 'Europe/Amsterdam';
     }
 }

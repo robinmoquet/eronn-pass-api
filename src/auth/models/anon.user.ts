@@ -1,21 +1,16 @@
-import { UserInterface } from "./user.interface";
-import { Role } from "./role.enum";
+import { UserInterface } from './user.interface';
+import { Role } from './role.enum';
 
 export class AnonUser implements UserInterface {
-
-    getUsername(): string
-    {
+    getUsername(): string {
         return 'anon';
     }
 
-    getPassword(): string
-    {
+    getPassword(): string {
         return '';
     }
 
-    getRoles(): Array<Role>
-    {
-        return [Role.ROLE_ANON];
+    getRole(): Role {
+        return Role.ROLE_ANON;
     }
-
 }

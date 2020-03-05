@@ -1,3 +1,3 @@
 export interface UserAuthPayloadInterface {
-    email: string
+    email: string;
 }

@@ -3,6 +3,9 @@ import { UserRepository } from './models/repositories/user.repository';
 import { UserCreateDto } from './models/user.create.dto';
 import { PasswordManager } from '../security/password.manager';
 import { UserInterface } from '../auth/models/user.interface';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { Role } from '../auth/models/role.enum';
+import { EmailManager } from '../email/email.manager';
 
 export const resolvers: IResolvers = {
     Query: {
@@ -10,10 +13,11 @@ export const resolvers: IResolvers = {
             return UserRepository.getInstance(UserRepository).findById(id);
         },
         userByEmail: (_, { email }, { user }: { user: UserInterface }) => {
-            // console.log('=============================');
-            // console.log(user.getUsername());
+            AuthGuard.isGranted(Role.ROLE_USER, user);
 
-            return UserRepository.getInstance(UserRepository).findByEmail(email);
+            return UserRepository.getInstance(UserRepository).findByEmail(
+                email
+            );
         },
     },
     Mutation: {
@@ -21,7 +25,25 @@ export const resolvers: IResolvers = {
             userDto.password = await PasswordManager.Instance.hashUserPassword(
                 userDto.password
             );
-            return UserRepository.getInstance(UserRepository).createUser(userDto);
+
+            const user = await UserRepository.getInstance(
+                UserRepository
+            ).createUser(userDto);
+            if (user === undefined) throw new Error('Fail on save user');
+
+            const res = await EmailManager.Gateway.sendConfirmationEmail({
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+            });
+            // NOTE: on rentre jamais dans le if, car eronn-pass-mailer
+            // retourne toujours success, on bloc pas le processu pour l'envoi
+            // d'email
+            if (res.status !== 'success') {
+                throw new Error(res.message);
+            }
+
+            return user;
         },
     },
 };

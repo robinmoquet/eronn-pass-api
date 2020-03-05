@@ -10,7 +10,7 @@ export const typeDef = gql`
         jwt: String
         message: String
     }
-    
+
     input ConnectionInput {
         email: String!
         password: String!

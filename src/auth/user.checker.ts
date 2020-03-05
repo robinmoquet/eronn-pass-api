@@ -7,15 +7,13 @@ import { UserStatsRepository } from '../user/models/repositories/user.stats.repo
 
 /**
  * Control si le user peu ce connecter
- * 
- * @class UserChecker 
+ *
+ * @class UserChecker
  */
 export class UserChecker implements AuthCheckerInterface {
-    
-    
     /**
      * Control sur le user avant l'auth
-     * 
+     *
      * @param  {User} user
      * @param  {ConnectionDto} connectionDto
      * @returns Promise
@@ -30,31 +28,26 @@ export class UserChecker implements AuthCheckerInterface {
         const now = new Date();
         const dateToUnlock = new Date(userStats.lockedAt as Date);
 
-        if (userStats.connectionAttempt > 6) dateToUnlock.setHours(dateToUnlock.getHours() + 1);
-        else if (userStats.connectionAttempt >= 5) dateToUnlock.setMinutes(dateToUnlock.getMinutes() + 10);
-        else if (userStats.connectionAttempt >= 3) dateToUnlock.setMinutes(dateToUnlock.getMinutes() + 1);
+        if (userStats.connectionAttempt > 6)
+            dateToUnlock.setHours(dateToUnlock.getHours() + 1);
+        else if (userStats.connectionAttempt >= 5)
+            dateToUnlock.setMinutes(dateToUnlock.getMinutes() + 10);
+        else if (userStats.connectionAttempt >= 3)
+            dateToUnlock.setMinutes(dateToUnlock.getMinutes() + 1);
 
-        console.log(now, dateToUnlock);
         if (now < dateToUnlock) accountIsLocked = true;
 
         if (accountIsLocked) {
-            throw new Error('This compte is locked')
+            throw new Error('This compte is locked');
         }
     }
-
 
     /**
      * @param  {User} user
      * @param  {ConnectionDto} connectionDto
      * @returns Promise
      */
-    async check(
-        user: User,
-        connectionDto: ConnectionDto
-    ): Promise<void> {
-
-        console.log(user);
-        
+    async check(user: User, connectionDto: ConnectionDto): Promise<void> {
         const password = user.getPassword();
         let samePassword = await PasswordManager.Instance.comparePassword(
             connectionDto.password,
@@ -70,33 +63,31 @@ export class UserChecker implements AuthCheckerInterface {
                 userStats.lockedAt = new Date();
             }
 
-            UserStatsRepository.getInstance(UserStatsRepository).flush(userStats);
+            UserStatsRepository.getInstance(UserStatsRepository).flush(
+                userStats
+            );
 
             throw new Error('Invalid password');
         }
     }
 
-
     /**
      * Si l'utilisateur c'est correctement connecter
      * on reset les control liée au nombre d'essaye de connection
-     * 
+     *
      * @param  {User} user
      * @param  {ConnectionDto} connectionDto
      * @returns Promise
      */
     async postCheck(user: User, connectionDto: ConnectionDto): Promise<void> {
-
         const userStats = await user.userStats;
 
         if (!userStats.isLock) return;
 
         userStats.connectionAttempt = 0;
         userStats.isLock = false;
-        // FIXME Trouver le moyen de typée les variable nullable
         userStats.lockedAt = null;
 
         UserStatsRepository.getInstance(UserStatsRepository).flush(userStats);
-
     }
 }

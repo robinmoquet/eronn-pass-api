@@ -1,12 +1,9 @@
-import { Role } from "./role.enum";
-
+import { Role } from './role.enum';
 
 export interface UserInterface {
+    getUsername(): string;
 
-    getUsername(): string
+    getPassword(): string;
 
-    getPassword(): string
-
-    getRoles(): Array<Role>
-
+    getRole(): Role;
 }

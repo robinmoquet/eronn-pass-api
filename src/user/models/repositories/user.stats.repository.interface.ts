@@ -1,7 +1,5 @@
-import { UserStats } from "../entity/user.stats.entity";
+import { UserStats } from '../entity/user.stats.entity';
 
 export interface UserStatsRepositoryInterface {
-
-    findById(id: string): Promise<UserStats>
-
+    findById(id: string): Promise<UserStats>;
 }
