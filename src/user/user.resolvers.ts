@@ -23,6 +23,43 @@ export const resolvers: IResolvers = {
 
             return UserRepository.getInstance(UserRepository).findByEmail(email);
         },
+        /**
+         * Renvoi l'email pour la confirmation de l'email
+         * Rest la keysecure associé à cette action
+         * 
+         * @param  {} _
+         * @param  {{email:string}} {email}
+         */
+        sendAgainEmailForConfirmation: async (_, { email }: { email: string }) => {
+            const response = new Response(Status.ERROR);
+
+            const user = await UserRepository.getInstance(UserRepository).findByEmail(email);
+            if (user === undefined) {
+                response.message = 'Email not valid';
+                return response;
+            }
+
+            const keysecureRepo = KeysecureRepository.getInstance(KeysecureRepository);
+            const oldKeysecure = await keysecureRepo.getKeysecureForConfirmationByEmail(user.id);
+            if (oldKeysecure !== undefined) keysecureRepo.remove(oldKeysecure);
+
+            const keysecure = await keysecureRepo.createKeysecureForConfirmEmail(user);
+            if (keysecure === undefined) {
+                response.message = 'Error during save new keysecure';
+                return response;
+            }
+            // on attend pas que l'email soit envoyer pour
+            // retourner une réponse à l'utilisateur
+            EmailManager.Gateway.sendConfirmationEmail({
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+                keysecure: keysecure.key
+            });
+
+            response.status = Status.SUCCESS;
+            return response;
+        },
     },
     Mutation: {
         /**

@@ -37,7 +37,7 @@ export default class Server {
         });
 
         server.listen(this.port).then(({ url }) => {
-            console.log(`Server start to ${url}, good work and thinks async !`);
+            console.log(`Server start to ${url} 👌, good work and thinks async ! 🤬`);
         });
     }
 

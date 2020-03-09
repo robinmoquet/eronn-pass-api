@@ -8,6 +8,13 @@ import { User } from "../../user/models/entity/user.entity";
 @EntityRepository(Keysecure)
 export class KeysecureRepository extends BaseRepository<Keysecure> {
     
+    /**
+     * Creer et persiste une keysecure pour la confirmation de 
+     * l'addresse email d'un user
+     * 
+     * @param  {User} user
+     * @returns Keysecure
+     */
     createKeysecureForConfirmEmail(user: User): Keysecure
     {
         const keysecure = new Keysecure();
@@ -20,7 +27,13 @@ export class KeysecureRepository extends BaseRepository<Keysecure> {
         this.flush(keysecure);
         return keysecure;
     }
-
+    /**
+     * Trouve une keysecure par rapport à un type et une key
+     * 
+     * @param  {KeysecureType} type
+     * @param  {string} key
+     * @returns Promise
+     */
     async findKeysecureByType(type: KeysecureType, key: string): Promise<Keysecure | null>
     {
 
@@ -31,6 +44,20 @@ export class KeysecureRepository extends BaseRepository<Keysecure> {
 
         if (keysecure === undefined) return null;
         return keysecure;
+    }
+    /**
+     * Retourne la keysecure pour la confirmation de l'email
+     * par rapport à l'utilisateur passer en params
+     * 
+     * @param  {User} userId
+     * @returns Promise
+     */
+    async getKeysecureForConfirmationByEmail(userId: string): Promise<Keysecure | undefined>
+    {
+        return await this.createQueryBuilder('keysecure')
+            .where("keysecure.userId = :userId", { userId: userId })
+            .andWhere("keysecure.type = :type", { type: KeysecureType.CONFIRM_EMAIL })
+            .getOne();
     }
 
 }
