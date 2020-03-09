@@ -7,10 +7,17 @@ export const typeDef = gql`
     }
     extend type Mutation {
         createUser(userDto: UserInput!): User
+        confirmationEmail(key: String!): ConfirmationEmailResponse
     }
+
     """
     Définition des utilisateur
     """
+    type ConfirmationEmailResponse implements Response {
+        status: Status!
+        message: String
+    }
+
     type User {
         id: String!
         firstname: String!

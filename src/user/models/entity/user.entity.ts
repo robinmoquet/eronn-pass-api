@@ -1,9 +1,10 @@
-import { Entity, Column, OneToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, OneToOne, JoinColumn, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { UserInterface } from '../../../auth/models/user.interface';
 import { Role } from '../../../auth/models/role.enum';
 import { UserStats } from './user.stats.entity';
 import { PersonalData } from '../../../personalData/models/entity/personal.data.entity';
 import { type } from 'os';
+import { Keysecure } from '../../../keysecure/models/keysecure.entity';
 
 @Entity()
 export class User implements UserInterface {
@@ -43,6 +44,16 @@ export class User implements UserInterface {
     )
     @JoinColumn()
     personalData: Promise<PersonalData>;
+
+    @OneToMany(
+        (type) => Keysecure,
+        (keysecure) => keysecure.user,
+        {
+            cascade: true,
+            onDelete: "CASCADE"
+        }
+    )
+    keysecures: Promise<Keysecure[]>;
 
     get fullname(): string {
         return `${this.firstname} ${this.lastname}`;

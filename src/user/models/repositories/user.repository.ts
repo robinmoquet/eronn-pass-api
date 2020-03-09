@@ -6,6 +6,7 @@ import { UserStats } from '../entity/user.stats.entity';
 import { BaseRepository } from '../../../common/repository/base.repository';
 import { PersonalData } from '../../../personalData/models/entity/personal.data.entity';
 import { DataManager } from '../../../utils/DataManager';
+import { Keysecure } from '../../../keysecure/models/keysecure.entity';
 
 @EntityRepository(User)
 export class UserRepository extends BaseRepository<User> implements UserRepositoryInterface {
@@ -38,5 +39,19 @@ export class UserRepository extends BaseRepository<User> implements UserReposito
 
     async findById(id: string): Promise<User | undefined> {
         return await this.findOne(id);
+    }
+    /**
+     * Ajout un object keysure à un objet user
+     * 
+     * @param  {Keysecure} keysecure
+     * @param  {User} user
+     * @returns Promise
+     */
+    async addKeysecure(keysecure: Keysecure, user: User): Promise<void>
+    {
+        const prevKeysecure = await user.keysecures;
+        user.keysecures = Promise.resolve([...prevKeysecure, keysecure]);
+
+        this.flush(user);
     }
 }

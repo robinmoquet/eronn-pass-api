@@ -1,4 +1,5 @@
-import { ConnectionResultInterface, Status } from './connection.result.interface';
+import { ConnectionResultInterface } from './connection.result.interface';
+import Status from '../../response/models/status.enum';
 
 export class ConnectionResult implements ConnectionResultInterface {
     _status: Status;

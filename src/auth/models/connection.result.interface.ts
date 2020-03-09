@@ -1,7 +1,4 @@
-export enum Status {
-    SUCCESS = 'success',
-    ERRORR = 'error',
-}
+import Status from "../../response/models/status.enum";
 
 export interface ConnectionResultInterface {
     _jwt: string;

@@ -23,4 +23,7 @@ export class UserStats {
 
     @Column({ nullable: true, type: Date })
     lockedAt?: Date | null;
+
+    @Column({ nullable: true, type: Date })
+    confirmEmailAt?: Date | null;
 }

@@ -2,10 +2,10 @@ import { IResolvers } from 'apollo-server';
 import { ConnectionDto } from './models/connection.dto';
 import { ConnectionResult } from './models/connection.result';
 import { UserProvider } from './user.provider';
-import { Status } from './models/connection.result.interface';
 import { UserChecker } from './user.checker';
 import { JwtManager } from '../security/jwt.manager';
 import { UserAuthPayloadInterface } from '../security/jwt.paypload/user.auth.payload.interface';
+import Status from '../response/models/status.enum';
 
 export const resolvers: IResolvers = {
     Query: {
@@ -44,7 +44,7 @@ export const resolvers: IResolvers = {
 };
 
 function definedResForError(res: ConnectionResult, message: string): ConnectionResult {
-    res.status = Status.ERRORR;
+    res.status = Status.ERROR;
     res.message = message;
     return res;
 }

@@ -1,5 +1,5 @@
-import { ApolloServer, IResolvers, AuthenticationError } from 'apollo-server';
-import { createConnection, Connection, EntityManager } from 'typeorm';
+import { ApolloServer } from 'apollo-server';
+import { createConnection, Connection } from 'typeorm';
 import { UserProvider } from './auth/user.provider';
 
 export default class Server {
