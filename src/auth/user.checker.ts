@@ -22,6 +22,9 @@ export class UserChecker implements AuthCheckerInterface {
         let accountIsLocked = false;
         const userStats = await user.userStats;
 
+        // control si l'email de l'utilisateur à bien été validé
+        if (userStats.confirmEmailAt === null) throw new Error('This user has not validated his email'); 
+
         // si le compte n'est pas bloqué on return
         if (!userStats.isLock) return;
 
