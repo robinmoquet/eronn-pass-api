@@ -5,6 +5,7 @@ import { UserStats } from './user.stats.entity';
 import { PersonalData } from '../../../personalData/models/entity/personal.data.entity';
 import { type } from 'os';
 import { Keysecure } from '../../../keysecure/models/keysecure.entity';
+import { IsString, Length } from 'class-validator/decorator/decorators';
 
 @Entity()
 export class User implements UserInterface {
@@ -12,17 +13,25 @@ export class User implements UserInterface {
     id: string;
 
     @Column()
+    @IsString()
+    @Length(3, 40)
     firstname: string;
 
     @Column()
+    @IsString()
+    @Length(3, 40)
     lastname: string;
 
     @Column({
         unique: true,
     })
+    @IsString()
+    @Length(3, 60)
     email: string;
 
     @Column()
+    @IsString()
+    @Length(3, 150)
     password: string;
 
     @OneToOne(
