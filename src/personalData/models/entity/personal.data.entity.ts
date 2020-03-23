@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, OneToMany, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, OneToOne, OneToMany, Column, JoinColumn } from 'typeorm';
 import { User } from '../../../user/models/entity/user.entity';
 import { Address } from './address.entity';
 
@@ -12,8 +12,12 @@ export class PersonalData {
 
     @OneToOne(
         (type) => User,
-        (user) => user.personalData
+        (user) => user.personalData,
+        {
+            onDelete: "CASCADE"
+        }
     )
+    @JoinColumn()
     user: User;
 
     @OneToMany(
@@ -21,6 +25,7 @@ export class PersonalData {
         (address) => address.personalData,
         {
             cascade: true,
+            onDelete: "CASCADE"
         }
     )
     address: Promise<Address[]>;

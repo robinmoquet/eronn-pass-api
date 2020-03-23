@@ -8,8 +8,12 @@ export class UserStats {
 
     @OneToOne(
         (type) => User,
-        (user) => user.userStats
+        (user) => user.userStats,
+        {
+            onDelete: "CASCADE"
+        }
     )
+    @JoinColumn()
     user: User;
 
     @Column({ default: 0 })

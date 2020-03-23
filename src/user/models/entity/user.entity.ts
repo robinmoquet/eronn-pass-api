@@ -38,20 +38,18 @@ export class User implements UserInterface {
         (type) => UserStats,
         (userStats) => userStats.user,
         {
-            cascade: true,
+            cascade: true
         }
     )
-    @JoinColumn()
     userStats: Promise<UserStats>;
 
     @OneToOne(
         (type) => PersonalData,
         (personalData) => personalData.user,
         {
-            cascade: true,
+            cascade: true
         }
     )
-    @JoinColumn()
     personalData: Promise<PersonalData>;
 
     @OneToMany(

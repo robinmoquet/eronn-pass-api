@@ -23,7 +23,10 @@ export class Keysecure {
 
     @ManyToOne(
         (type) => User,
-        (user) => user.keysecures
+        (user) => user.keysecures,
+        {
+            onDelete: "CASCADE"
+        }
     )
     user: Promise<User>;
 
